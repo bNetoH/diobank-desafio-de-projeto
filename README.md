@@ -12,6 +12,10 @@ Simular operações bancárias básicas, permitindo depósitos, saques, visualiz
 - **Saque**: Permite saques de acordo com as regras de limites por transação e a quantidade de operações diárias.
 - **Saldo**: Exibe o saldo atual.
 - **Extrato**: Exibe o histórico de transações e o saldo atual.
+- **Cadastrar Cliente**: Permite cadastrar usuário(cliente).
+- **Listar Clientes**: Exibe a lista de clientes.
+- **Cadastrar Conta**: Permite cadastrar conta e vincular a mesma a um cliente.
+- **Listar Contas**: Exibe lista de contas com seus respectivos titulares.
 - **Conhecer Limites**: Exibe regras de limites para saques e limite global das transações.
 - **Sair**: Mensagens de agradecimento e mensagens informativas sobre segurança e boas práticas bancárias.
 
@@ -57,7 +61,11 @@ Simular operações bancárias básicas, permitindo depósitos, saques, visualiz
 [s] Saque
 [b] Saldo
 [e] Extrato
-[c] Conhecer Limites
+[u] Cadastrar Cliente
+[v] Listar Clientes
+[c] Cadastrar Conta
+[l] Listar Contas
+[k] Conhecer Limites
 [q] Sair
 
 =>
@@ -111,6 +119,36 @@ somados aos saques, é de 10 transações
 
 
 Pressione qualquer tecla
+```
+
+4. Listar Clientes
+
+```
+========================================
+              DioBank.com
+----------------------------------------
+            Listar Clientes
+CPF         Nome
+13613613613 Clientisvaldo Silva
+----------------------------------------
+
+
+Pressione qualquer tecla para voltar
+```
+
+5. Listar Contas
+
+```
+========================================
+              DioBank.com
+----------------------------------------
+             Listar Contas
+Agência C/C       Titular
+   0001 000000001 Clientisvaldo Silva
+----------------------------------------
+
+
+Pressione qualquer tecla para voltar
 ```
 
 ## 📌 Melhorias Futuras

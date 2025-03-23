@@ -1,18 +1,18 @@
 import os
 from time import sleep
 from datetime import datetime
-from params import extrato,single_line,double_line,BANK_TITLE,MSG_RODAPE
+from params import extrato,SINGLE_LINE,DOUBLE_LINE,BANK_TITLE,MSG_RODAPE,PRESS_ANY_KEY
 
 def cabecalho_padrao():
     os.system('cls' if os.name == 'nt' else 'clear')
-    print(double_line)
+    print(DOUBLE_LINE)
     print(BANK_TITLE.center(40))
-    print(single_line)
+    print(SINGLE_LINE)
 
 def rodape_padrao():
-    print(single_line)
+    print(SINGLE_LINE)
     print(MSG_RODAPE.center(40))
-    print(double_line)
+    print(DOUBLE_LINE)
 
 def emitir_recibo(valor, operacao):
     cabecalho_padrao()
@@ -49,7 +49,7 @@ def contar_transacoes_hoje():
 def depositar(saldo, valor, extrato, operador, operacao, /):
     valor = validar_entrada(valor)
 
-    print(single_line)
+    print(SINGLE_LINE)
     if valor > 0:
         saldo += valor
         operador = "+"
@@ -68,7 +68,7 @@ def sacar(*, saldo, valor, extrato, limite, qtde_saques, limite_saques, operador
     excedeu_saldo = saldo < valor
     excedeu_limite = valor > limite
     excedeu_saques = qtde_saques >= limite_saques
-    print(single_line)
+    print(SINGLE_LINE)
 
     if excedeu_saldo:
         print("Saldo insuficiente.")
@@ -94,7 +94,7 @@ def sacar(*, saldo, valor, extrato, limite, qtde_saques, limite_saques, operador
 
 def exibir_extrato(saldo, /, *,extrato):
     print("Sem transações para exibir" if not extrato else extrato)
-    print(single_line)
+    print(SINGLE_LINE)
     print("Saldo atual:             R$ % 10.2f" % saldo)
     rodape_padrao()
     print(input("\n\nPressione qualquer tecla"))
@@ -106,6 +106,7 @@ def validar_usuario(cpf, usuarios, /):
 def criar_usuario(usuarios):
     print("Informe o documento somente números.")
     cpf = input("CPF: ")
+
     usuario = validar_usuario(cpf, usuarios)
 
     if usuario:
@@ -118,10 +119,10 @@ def criar_usuario(usuarios):
     print("Informe a data de nascimento.")
     data_nascimento = input("dd-mm-aaaa: ")
     print("Informe o endereço.")
-    logradouro = input("Logradouro, numeral: ")
-    complemento = input("complemento: ")
-    bairro = input("bairro: ")
-    cidade_estado = input("cidade/uf: ")
+    logradouro = input("Logradouro, n°: ")
+    complemento = input("Complemento: ")
+    bairro = input("Bairro: ")
+    cidade_estado = input("Cidade/UF: ")
 
     if complemento:
         endereco = f"{logradouro} - {complemento} - {bairro} - {cidade_estado}"
@@ -133,14 +134,17 @@ def criar_usuario(usuarios):
     sleep(3)
 
 def listar_usuarios(usuarios):
-    for usuario in usuarios:
-        linha = f"""\
-            CPF:{usuario["cpf"]} Nome:{usuario["nome"]}
-        """
-        print(double_line)
-        print(linha)
+    if len(usuarios) > 0:
+        print("CPF" + " " * 9 + "Nome")
+        for usuario in usuarios:
+            linha = f"{usuario["cpf"]} {usuario["nome"]}"
+            print(linha)
+            print(SINGLE_LINE)
+    else:
+        print("\nNão existem usuários cadastrados!")
+        print(SINGLE_LINE)
 
-    print(input("\n\nPressione qualquer tecla"))
+    print(input(PRESS_ANY_KEY))
 
 
 def criar_conta(agencia, numero_conta, usuarios, contas, /):
@@ -158,13 +162,14 @@ def criar_conta(agencia, numero_conta, usuarios, contas, /):
     sleep(3)
 
 def listar_contas(contas):
-    for conta in contas:
-        linha = f"""\
-            Agência:\t\t {conta["agencia"]}
-            C/C:\t {conta["numero_conta"]}
-            Titular:\t {conta["usuario"]["nome"]}
-        """
-        print(double_line)
-        print(linha)
+    if len(contas) > 0:
+        print("Agência "+"C/C"+" " * 7 + "Titular")
+        for conta in contas:
+            linha = f"{" " * 3 + conta["agencia"] + " " + conta["numero_conta"] + " " + conta["usuario"]["nome"]}"
+            print(linha)
+            print(SINGLE_LINE)
+    else:
+        print("\nNão existem contas cadastradas!")
+        print(SINGLE_LINE)
 
-    print(input("\n\nPressione qualquer tecla"))
+    print(input(PRESS_ANY_KEY))

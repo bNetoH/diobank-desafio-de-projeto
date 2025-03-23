@@ -19,10 +19,11 @@ saldo = 0
 limite = 500
 extrato = []
 qtde_saques = 0
+PRESS_ANY_KEY = "\n\nPressione qualquer tecla para voltar"
 LIMITE_SAQUES = 3
 AGENCIA = "0001"
-single_line = "-" * 40
-double_line = "=" * 40
+SINGLE_LINE = "-" * 40
+DOUBLE_LINE = "=" * 40
 BANK_TITLE = "DioBank.com"
 MSG_RODAPE = "Volte sempre!" 
 MSG_OPERACAO = "Digite o valor: "
@@ -43,5 +44,3 @@ O limite global das transações depósitos
 somados aos saques, é de {limite_transacoes} transações 
 por dia.
 """
-
-
