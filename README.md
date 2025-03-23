@@ -4,15 +4,16 @@ Projeto proposto no desafio: Suzano - Python Developer da Dio.me.
 
 ## Objetivo:
 
-Simular operações bancárias básicas, permitindo depósitos, saques e a visualização de extratos financeiros diretamente pelo terminal.
+Simular operações bancárias básicas, permitindo depósitos, saques, visualização de saldo e a visualização de extratos financeiros diretamente pelo terminal.
 
 ## 📌 Funcionalidades
 
 - **Depósito**: Permite adicionar valores ao saldo da conta.
 - **Saque**: Permite saques de acordo com as regras de limites por transação e a quantidade de operações diárias.
+- **Saldo**: Exibe o saldo atual.
 - **Extrato**: Exibe o histórico de transações e o saldo atual.
-- **Conhecer Limites**: Exibe regras de limites para saques.
-- **Segurança**: Mensagens informativas sobre boas práticas bancárias.
+- **Conhecer Limites**: Exibe regras de limites para saques e limite global das transações.
+- **Sair**: Mensagens de agradecimento e mensagens informativas sobre segurança e boas práticas bancárias.
 
 ## 🚀 Instalação e Execução
 
@@ -48,12 +49,13 @@ Simular operações bancárias básicas, permitindo depósitos, saques e a visua
 1. Menu
 
 ```
-==============================
-         DioBank.com
-------------------------------
+========================================
+              DioBank.com
+----------------------------------------
 
 [d] Depósito
 [s] Saque
+[b] Saldo
 [e] Extrato
 [c] Conhecer Limites
 [q] Sair
@@ -64,17 +66,51 @@ Simular operações bancárias básicas, permitindo depósitos, saques e a visua
 2. Extrato
 
 ```
-==============================
-         DioBank.com
-------------------------------
-           Extrato
-22-03-25       R$     500.50 +
-22-03-25       R$     500.00 +
-------------------------------
-Saldo atual:     R$    1000.50
-------------------------------
-        Volte sempre!
-==============================
+========================================
+              DioBank.com
+----------------------------------------
+                Extrato
+23-03-25 00:47:51        R$     100.00 +
+23-03-25 00:48:06        R$    1000.00 +
+23-03-25 00:48:15        R$    1000.00 +
+23-03-25 00:50:45        R$     400.00 +
+23-03-25 00:51:03        R$      55.00 +
+23-03-25 00:51:13        R$     343.00 +
+23-03-25 00:51:24        R$     500.00 -
+23-03-25 00:51:33        R$     500.00 -
+23-03-25 00:51:43        R$     500.00 -
+23-03-25 00:52:14        R$     600.00 +
+----------------------------------------
+Saldo atual:   R$    1998.00
+----------------------------------------
+             Volte sempre!
+========================================
+
+
+Pressione qualquer tecla
+```
+
+3. Conhecer Limites
+
+```
+========================================
+              DioBank.com
+----------------------------------------
+O valor limite para saques é de R$ 500
+             por operação.
+
+E ainda,  as operações  de  saque  estão
+         limitadas a 3 por dia.
+
+O limite global das transações depósitos
+somados aos saques, é de 10 transações
+                por dia.
+----------------------------------------
+             Volte sempre!
+========================================
+
+
+Pressione qualquer tecla
 ```
 
 ## 📌 Melhorias Futuras
