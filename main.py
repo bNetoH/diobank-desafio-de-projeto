@@ -1,8 +1,7 @@
 import re
-from datetime import datetime
 from time import sleep
-from params import menu, saldo,limite_transacoes,limite,extrato,qtde_saques,LIMITE_SAQUES,single_line,MSG_OPERACAO,GOODBYE_MSG,KNOWN_LIMITS
-from funcoes import cabecalho_padrao,rodape_padrao,emitir_recibo,validar_entrada,formatar_linha_adicionar_extrato, contar_transacoes_hoje
+from params import menu, saldo, limite_transacoes, limite, extrato, qtde_saques, usuarios, contas, LIMITE_SAQUES, MSG_OPERACAO, GOODBYE_MSG, KNOWN_LIMITS, AGENCIA
+from funcoes import cabecalho_padrao, rodape_padrao, contar_transacoes_hoje, depositar, sacar, exibir_extrato, criar_usuario, listar_usuarios, criar_conta, listar_contas
 
 padrao = r"\[([a-zA-Z])\]\s+(.+)"
 opcoes = dict(re.findall(padrao, menu))
@@ -17,21 +16,9 @@ while True:
             if total_transacoes < limite_transacoes:
                 operacao = opcoes[opcao]
                 print(operacao.title().center(40))
-                entrada = input(MSG_OPERACAO).strip()
-
-                valor = validar_entrada(entrada)
-
-                print(single_line)
-                if valor > 0:
-                    saldo += valor
-                    operador = "+" if opcao == "d" else "-"
-                    formatar_linha_adicionar_extrato(valor,operador)
-                    print("Aguarde seu recibo")
-                    sleep(3)
-                    emitir_recibo(valor, operacao)
-                else:
-                    print("Valor inválido, operação cancelada")
-                    sleep(3)
+                valor = input(MSG_OPERACAO).strip()
+                operador = "+" if opcao == "d" else "-"
+                saldo, extrato = depositar(saldo, valor, extrato, operador, operacao)
             else:
                 print("Limite de transações excedido.\nTente novamente amanhã.")
                 sleep(3)
@@ -41,32 +28,19 @@ while True:
             if total_transacoes < limite_transacoes:
                 operacao = opcoes[opcao]
                 print(operacao.title().center(40))
-                entrada = input(MSG_OPERACAO).strip()
+                valor = input(MSG_OPERACAO).strip()
+                operador = "+" if opcao == "d" else "-"
 
-                valor = validar_entrada(entrada)
-                print(single_line)
-
-                if valor > 0:
-                    if valor > 500: 
-                        print(f"Valor acima do limite de\nR$ {limite} por saque.")
-                        sleep(3)
-                    elif qtde_saques >= LIMITE_SAQUES:
-                        print(f"Limite({LIMITE_SAQUES}) de saque atingido.")
-                        sleep(3)
-                    elif saldo < valor:
-                        print("Saldo insuficiente.")
-                        sleep(3) 
-                    else:
-                        saldo -= valor
-                        operador = "+" if opcao == "d" else "-"
-                        formatar_linha_adicionar_extrato(valor,operador)
-                        qtde_saques += 1
-                        print("Aguarde seu recibo")
-                        sleep(3)
-                        emitir_recibo(valor, operacao)
-                else:
-                    print("Valor inválido,\noperação cancelada!")
-                    sleep(3)
+                saldo, extrato = sacar(
+                    saldo=saldo, 
+                    valor=valor, 
+                    extrato=extrato,
+                    limite=limite,
+                    qtde_saques=qtde_saques,
+                    limite_saques=LIMITE_SAQUES, 
+                    operador=operador, 
+                    operacao=operacao
+                )
             else:
                 print("Limite de transações excedido.\nTente novamente amanhã.")
                 sleep(3)
@@ -83,19 +57,41 @@ while True:
             cabecalho_padrao()
             operacao = opcoes[opcao]
             print(operacao.title().center(40))
-            for item in extrato:
-                print(item)
-            print(single_line)
-            print("Saldo atual:             R$ % 10.2f" % saldo)
-            rodape_padrao()
-            print(input("\n\nPressione qualquer tecla"))
+
+            exibir_extrato(saldo, extrato=extrato)
+
+        elif opcao == "u":
+            cabecalho_padrao()
+            operacao = opcoes[opcao]
+            print(operacao.title().center(40))
+            criar_usuario(usuarios)
+
+        elif opcao == "v":
+            cabecalho_padrao()
+            operacao = opcoes[opcao]
+            print(operacao.title().center(40))
+            listar_usuarios(usuarios)
 
         elif opcao == "c":
+            cabecalho_padrao()
+            operacao = opcoes[opcao]
+            print(operacao.title().center(40))
+            numero_conta = len(contas) + 1
+            criar_conta(AGENCIA, numero_conta, usuarios, contas)
+
+        elif opcao == "l":
+            cabecalho_padrao()
+            operacao = opcoes[opcao]
+            print(operacao.title().center(40))
+            listar_contas(contas)
+
+        elif opcao == "k":
             cabecalho_padrao()
             msg_centralizada = "\n".join(line.center(40) for line in KNOWN_LIMITS.strip().split("\n"))
             print(msg_centralizada)       
             rodape_padrao()
             print(input("\n\nPressione qualquer tecla"))
+
         elif opcao == "q":
             cabecalho_padrao()
             msg_centralizada = "\n".join(line.center(40) for line in GOODBYE_MSG.strip().split("\n"))
